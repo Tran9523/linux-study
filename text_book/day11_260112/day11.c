@@ -1,8 +1,9 @@
-#include <stdio.h>
-
-//추가(배터리 로그를 이용한 특정 데이터 추출해서 새로운 txt파일에 기록)
 //여태까지 했던 실습들을 하나의 프로그램으로 만들자!(종합 계산기 -> 바퀴별 속도, 배터리 사용시간, 모터토크, 센서 정규화, 오차율 계산 등등)
 //malloc 사용해서 필요한 데이터만 뽑고 반납하고, 불필요한 데이터 사용이 최소화 되도록
+// 이거는 너무 오래 걸려서 별도 파일 만들어서 진행
+
+
+//추가(배터리 로그를 이용한 특정 데이터 추출해서 새로운 txt파일에 기록)
 #include <stdio.h>
 #include <string.h>
 
@@ -14,16 +15,16 @@ typedef struct {
 } Time;
 
 typedef struct {
-    long long sec;
+    long long sec;          // 비교용 환산
     Time t;
     char week[MAX_WEEK];
 } Rank;
 
-void trim_newline(char *s);
-long long to_seconds(Time t);
+void trim_newline(char *s);     // 한줄씩 갖고올때 마지막 개행 제거(오류 및 입출력 편의)
+long long to_seconds(Time t);   // 초 환산하는 함수
 Time parse_time(const char *tok);
 void print_time(FILE *out, Time t);
-void update_top3(Rank top[3], const char *week, Time t);
+void update_top3(Rank top[3], const char *week, Time t);    //삽입 정렬로 순위 유지
 
 int main(void) {
     FILE *fp = fopen("usage_history.txt", "r");
@@ -37,14 +38,14 @@ int main(void) {
 
     char line[MAX_LINE];
 
-    while (fgets(line, sizeof(line), fp)) {
-        trim_newline(line);
+    while (fgets(line, sizeof(line), fp)) {     //한 줄씩 읽기
+        trim_newline(line);                     //개행 제거
 
-        char buf[MAX_LINE];
+        char buf[MAX_LINE];                     //버퍼로 넣어서 탭 바꿀때 원본 유지
         strncpy(buf, line, sizeof(buf) - 1);
         buf[sizeof(buf) - 1] = '\0';
 
-        char *f[8] = {0};
+        char *f[8] = {0};                       //탭 기준으로 문자열 저장
         int n = 0;
         f[n++] = buf;
         for (char *p = buf; *p; p++) {
@@ -54,14 +55,14 @@ int main(void) {
             }
         }
 
-        if (n < 5) continue;
+        if (n < 5) continue;                    //제목 등 이상한 줄은 거르기
 
         char *week = f[0];
         Time t_ba_act = parse_time(f[1]);
         Time t_ba_con = parse_time(f[2]);
 
         Time t_ac_act, t_ac_con;
-        if (n >= 6 && f[3][0] == '\0') {
+        if (n >= 6 && f[3][0] == '\0') {        //3번째가 탭이면 스킵, 아니면 입력
             t_ac_act = parse_time(f[4]);
             t_ac_con = parse_time(f[5]);
         } else {
@@ -69,7 +70,7 @@ int main(void) {
             t_ac_con = parse_time(f[4]);
         }
 
-        update_top3(BA_act, week, t_ba_act);
+        update_top3(BA_act, week, t_ba_act);    //BA_act[3] 에서 정렬
         update_top3(BA_con, week, t_ba_con);
         update_top3(AC_act, week, t_ac_act);
         update_top3(AC_con, week, t_ac_con);
@@ -82,7 +83,7 @@ int main(void) {
         return 1;
     }
 
-    FILE *outs[2] = {stdout, out};
+    FILE *outs[2] = {stdout, out};      // 출력 파일 동시에 하기 위해
 
     for (int k = 0; k < 2; k++) {
         FILE *o = outs[k];
@@ -100,7 +101,7 @@ int main(void) {
             for (int i = 0; i < 3; i++) {
                 if (groups[g][i].sec == 0) continue;
                 fprintf(o, "  %d위  %s  ", i + 1, groups[g][i].week);
-                print_time(o, groups[g][i].t);
+                print_time(o, groups[g][i].t);  //배열에 접근하는 포인터
                 fprintf(o, "\n");
             }
             fprintf(o, "\n");

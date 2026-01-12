@@ -39,11 +39,11 @@ int main(void)
     for(i < 0; i = N; i++) {
         printf("%2d", label[i]);
     }
-    printf("\nblack count = %d", &black_count);
+    printf("\nblack count = %d", black_count);
     if (black_count <= 0) {
         printf("라인 없음");
     } else {
-        printf("index_avg = %lf\n", &index_avg);
+        printf("index_avg = %lf\n", index_avg);
     }
 
 }
