@@ -15,8 +15,13 @@ Linux_study 기준 3일차부터 매일 진행
 
 ### TimeLine
 day1: skill book_chap2_304 완료
+
 day2: skill book_chap2 완료
+
 day3: skill book_chap3-305 완료
+
 day4: skill book_chap3-6 완료
+
 day5: skill book_chap3-7 완료
+
 day6: skill book_chap3-9 완료(끝)

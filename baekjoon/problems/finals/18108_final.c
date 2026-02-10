@@ -2,12 +2,10 @@
 
 int main(void)
 {
-    char str[1001] = {0};
     int a;
 
-    scanf("%1001s", str);
     scanf("%d", &a);
+    printf("%d", (a - 543));
 
-    printf("%c\n", str[a-1]);
     return 0;
 }
