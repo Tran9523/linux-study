@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\anstp\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\\uC815\uB9AC\\SW_Code\\github\\linux-study\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anstp\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\\uC815\uB9AC\\SW_Code\\github\\linux-study\\README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anstp\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\\uC815\uB9AC\\SW_Code\\github\\linux-study\\baekjoon\\test\\a.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:baekjoon\\test\\a.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anstp\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\\uC815\uB9AC\\SW_Code\\github\\linux-study\\baekjoon\\README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:baekjoon\\README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "README.md",
+              "DocumentMoniker": "C:\\Users\\anstp\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\\uC815\uB9AC\\SW_Code\\github\\linux-study\\baekjoon\\README.md",
+              "RelativeDocumentMoniker": "baekjoon\\README.md",
+              "ToolTip": "C:\\Users\\anstp\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\\uC815\uB9AC\\SW_Code\\github\\linux-study\\baekjoon\\README.md",
+              "RelativeToolTip": "baekjoon\\README.md",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2026-01-08T12:11:05.65Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "a.c",
+              "DocumentMoniker": "C:\\Users\\anstp\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\\uC815\uB9AC\\SW_Code\\github\\linux-study\\baekjoon\\test\\a.c",
+              "RelativeDocumentMoniker": "baekjoon\\test\\a.c",
+              "ToolTip": "C:\\Users\\anstp\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\\uC815\uB9AC\\SW_Code\\github\\linux-study\\baekjoon\\test\\a.c",
+              "RelativeToolTip": "baekjoon\\test\\a.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2026-01-08T12:11:00.924Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "README.md",
+              "DocumentMoniker": "C:\\Users\\anstp\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\\uC815\uB9AC\\SW_Code\\github\\linux-study\\README.md",
+              "RelativeDocumentMoniker": "README.md",
+              "ToolTip": "C:\\Users\\anstp\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\\uC815\uB9AC\\SW_Code\\github\\linux-study\\README.md",
+              "RelativeToolTip": "README.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2026-01-08T12:10:56.269Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
