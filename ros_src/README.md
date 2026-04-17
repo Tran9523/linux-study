@@ -29,9 +29,9 @@ ROS 2의 주요 통신 방식을 구현한 메인 로직 패키지입니다.
 - [cite_start]**Flexible Launching**: Python과 XML 두 가지 방식의 런치 파일을 지원하여 환경 설정의 유연성 확보 
 
 ## 📦 .bashrc - alias 설정
-alias sb="source ~/.bashrc; echo \"bashrc is reloded\""\n
-alias jazzy="source /opt/ros/jazzy/setup.bash; ros_domain; ros_venv; echo \"jazzy is activated.\"; cd ~/dev_ws/ros"\n
-alias ros_domain="export ROS_DOMAIN_ID=26"\n
-alias ros_venv="source ~/venv/ros/bin/activate"\n
-alias ros_study="jazzy; source ~/dev_ws/ros/install/setup.bash; echo \"ros2_study workspace is activated.\""\n
-alias rrros="sb; jazzy; source ~/dev_ws/ros/install/setup.bash; echo \"Reset!!\""\n
+- alias sb="source ~/.bashrc; echo \"bashrc is reloded\""
+- alias jazzy="source /opt/ros/jazzy/setup.bash; ros_domain; ros_venv; echo \"jazzy is activated.\"; cd ~/dev_ws/ros"
+- alias ros_domain="export ROS_DOMAIN_ID=26"
+- alias ros_venv="source ~/venv/ros/bin/activate"
+- alias ros_study="jazzy; source ~/dev_ws/ros/install/setup.bash; echo \"ros2_study workspace is activated.\""
+- alias rrros="sb; jazzy; source ~/dev_ws/ros/install/setup.bash; echo \"Reset!!\""
