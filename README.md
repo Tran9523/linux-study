@@ -11,7 +11,7 @@
 - skill_book : 교재 자습
 - text_book : "Linux 환경 구축" 강좌
 - baekjoon : 백준 자습
-- ROS : ROS2 연습 -> 메인 코드는 src / 빌드 위치는 ros
+- ros_src : ROS2 연습 -> 메인 코드는 src / 빌드 위치는 ros
 
 
 ### Study Flow
