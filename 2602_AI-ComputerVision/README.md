@@ -1,36 +1,139 @@
+# 🛠️ Realtime Assembly Guide (Vision-based)
 
-### Linux 환경 구축 강좌
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![YOLO11](https://img.shields.io/badge/YOLO11-00FFFF?style=for-the-badge&logo=yolo&logoColor=black)
+![PyQt5](https://img.shields.io/badge/PyQt5-41CD52?style=for-the-badge&logo=qt&logoColor=white)
+
+> **비전 인식 기반 실시간 조립 가이드 시스템** > 작업 공간을 관찰하는 상부 고정 카메라와 YOLO 기반 AI 모델을 결합하여, 사용자가 종이 설명서 없이도 현재 조립 단계에 맞는 가이드를 실시간으로 제공받을 수 있는 스마트 자동화 솔루션입니다.
+
+## 시연 영상
+
+**Demo Video**: [Watch on YouTube](https://youtu.be/sAVkPxLrHNo)
+
+<div align="center">
+  <img width="800" alt="demo_video" src="https://github.com/user-attachments/assets/5067cc5d-ddf9-4f12-b74d-a83ca86ba3d0" />
+</div>
+
+## 프로젝트 설명
+
+본 프로젝트는 컴퓨터 비전과 GUI 애플리케이션을 결합한 AI 컨버전스 로봇 소프트웨어 비전 프로젝트입니다.  
+사용자는 조립 대상의 현재 상태를 카메라로 보여주기만 하면 되고, 시스템은 다음과 같은 흐름으로 동작합니다.
+
+1. 카메라가 작업 장면을 입력받음
+2. Detect 모델이 부품 존재 여부와 위치를 파악함
+3. Classify 모델이 현재 조립 단계를 판별함
+4. PyQt5 UI가 현재 단계에 맞는 텍스트/이미지 가이드를 자동 표시함
+5. 조건이 충족 시 자동으로 다음 단계 이동함
+
+이 프로젝트는 DIY 조립물, 3D 프린팅 조립품, 교육용 키트, 가구 조립 등 다양한 B2C 조립 시나리오로 확장할 수 있습니다.
+
+## 핵심 기능
+
+- 실시간 카메라 기반 조립 상태 인식
+- YOLO Detect 기반 부품 검출
+- YOLO Classify 기반 조립 단계 판별
+- 단계 조건 충족 여부에 따른 자동 가이드 전환
+- 부품 체크리스트 표시
+- 잘못된 자동 진행을 줄이기 위한 게이팅 로직 적용
+- 로컬 환경에서 독립 실행 가능한 구조
+
+## 프로젝트 목표
+
+- 종이 설명서 탐색 부담 감소
+- 조립 단계 누락 및 순서 오류 방지
+- 초보자도 따라가기 쉬운 실시간 가이드 제공
+- 향후 엣지 디바이스 및 서버형 구조로 확장 가능한 기반 마련
+
+## 기술 스택
+
+- **Language**: Python 3.10
+- **Vision**: Ultralytics YOLO11n / YOLO11n-cls
+- **GUI**: PyQt5
+- **Labeling Tool**: labelImg
+- **Image Processing**: OpenCV
+- **Deep Learning**: PyTorch, Torchvision
+- **Environment**: Windows 11
+
+## 시스템 개요
 
 
-### 총 소요 : 11 days (2025.12.23 ~ 2026.01.12)
-혼자 공부하는 C언어 <- 교재(자습할 때 사용했던 그 교재)
-교안은 교수님이 수업 전마다 배포해줌
+전체 시스템은 독립적이고 유기적인 계층형 아키텍처로 설계되었습니다.
+
+본 시스템은 다음 계층으로 구성됩니다.
+
+입력 계층: 상부 고정 카메라
+
+전처리 계층: 프레임 캡처, 리사이즈, 기본 보정
+
+인식 계층 1: YOLO Detect 모델
+
+인식 계층 2: YOLO Classify 모델
+
+판단 계층: 단계 게이팅, 신뢰도 조건, 체크리스트 로직
+
+안내 계층: PyQt5 기반 UI
+
+콘텐츠 계층: 모델 파일, 단계별 텍스트, 이미지 리소스
+
+## 대표 PoC 대상
+
+본 프로젝트의 대표 PoC는 Foosball 3D 프린팅 조립물입니다.
+
+부품 종류: 14종
+
+총 부품 수: 30개
+
+표준 조립 단계: 8단계
+
+학습용 확장 단계: 17단계
+
+추가로 Raspberry Pi 5 케이스 및 PCB 받침대 가이드에도 확장 적용되었습니다.
+
+## 📈 모델 학습 고도화 전략 (Training Strategy)
+
+현장 적용이 가능한 수준의 견고한 AI 모델을 구축하기 위해, 점진적인 데이터 학습 파이프라인을 설계했습니다.
+
+1. **단일 부품 데이터 구축**: 각 부품의 특징을 독립적으로 파악하기 위한 기초 데이터 수집
+<img width="600" alt="그림1" src="https://github.com/user-attachments/assets/df742431-25a0-4264-ba6b-e4c65d647174" />
+
+ 
+2. **단일 학습**: 개별 부품에 대한 베이스라인 Detection 모델 훈련
+<img  width="600" alt="그림2" src="https://github.com/user-attachments/assets/c1b6ea1a-cc6d-47e0-8efd-8588d4a8ab0d" />
+
+   
+3. **복합 부품 환경 구성**: 부품 겹침, 손에 의한 가려짐 등 실제 조립 시 발생하는 복잡한 작업 공간(Workspace) 모사
+<img  width="600" alt="그림3" src="https://github.com/user-attachments/assets/bec4a407-452a-42db-800e-707615aff508" />
+
+ 
+4. **복합 학습**: 복합 환경 데이터를 추가 투입하여 모델을 파인튜닝
+<img  width="600" alt="그림4" src="https://github.com/user-attachments/assets/52d7928d-263a-45f5-bc6a-4ad6eeb06be2" />
 
 
-### Summary
-C언어 기초 학습. 언제나 그렇듯이 포인터의 주의하고, 구조체 선언도 기억해두기
-그 외에는 백준 등 추가 학습을 통해 꾸준히 익혀나가기
+## 성능 요약
 
+Foosball 환경 기준 검증 결과:
 
-### TimeLine
-day1: 프로그램 설치 및 git 연결
+Detect 모델
 
-day2: c언어 기초 practice
+mAP@50: 97.85%
 
-day3: 기초 연산자 + 모터 구동 + 배터리 효율
+mAP@50-95: 84.51%
 
-day4: 견인력 + 파이 + 자잘 practice
+Classify 모델
 
-day5: 히스테리시스 + 랜덤 속도 입력
+Top-1 Accuracy: 95.37%
+(3개 모델 평균 기준)
 
-day6: IR판단 코드 + 포인터 시작
+위 수치는 Foosball 중심 데이터셋 및 실험 환경 기준입니다.
 
-day7: 포인터 + 버퍼 개념 (scanf gets fgets / puts fputs)
+## 트러블슈팅 및 성능 최적화 (Troubleshooting)
 
-day8: string.h 함수 직접 만들기 (strcpy, strcat, strlen, strcmp) + 포인터&배열 + 가로세로 합 구하는 함수 테스트
+- **이슈:** 단일 부품 위주로 학습된 초기 모델이 실제 복합 조립 환경(부품이 겹치거나 가려지는 상황)에서 인식률(Confidence Score)이 저하되고 오탐지하는 현상 발생.
+- **해결 방안:** 1. 빈 작업 환경을 Default 클래스로 별도 학습하여 오탐지 방지.
+  2. 미완성 상태와 완성 상태 이미지를 직접 라벨링 및 전처리하여 데이터셋 고도화.
+  3. 프레임 스킵 로직을 적용하여 실시간 추론 시 연산 부하 최소화.
+- **결과:** 실제 조립 환경에서의 객체 인식 안정성을 대폭 확보하고, AI 모델의 한계를 데이터 품질 개선으로 극복하였습니다.
 
-day9: 동적 할당(malloc, calloc, realloc) + 배열 포인터, 특히 동적 할당에 있어서 주소와 free 아주 주의해서 사용
+## 세부 내용
 
-day10: 구조체, typedef 위주로 연습하기 + 특히 구조체 넘어오면서 배열과 주소 * 포인터 등 혼용되어 어려우니 주기적으로 복습 (연습문제: 로봇 좌표 이동 & 차동구동 로봇 속도)
-
-day11: 파일에다가 직접 입출력 및 규칙 찾아내서 정리하는거까지 *는 항상 포인터임을 인지하면서 작성
+https://github.com/Tran9523/Realtime_Assembly_Guide.git
