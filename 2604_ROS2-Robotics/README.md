@@ -66,6 +66,42 @@ git clone [https://github.com/pinklab-art/vic_pinky.git](https://github.com/pink
 
 ---
 
+### 04_YOLO Test
+YOLO3 & YOLO11n 등 GPU 세팅 및 간단한 테스트 코드를 통해 실시간 YOLO 구동
+
+1. ubuntu-drivers devices -> 그래픽 드라이버 확인
+2. CUDA Toolkit 13.1.0 -> install
+3. cuDNN 9.17.0 -> install
+
+---
+
+### 05_ROS2 Domain & PID제어
+my_tf 를 통해서 다른 도메인을 동시 제어, control_tutorials 를 통해서 PID 제어 연습
+
+```bash
+# 워크스페이스 src 폴더로 이동
+cd ~/my_tf
+cd ~/control_tutorials
+
+# colcon build 후 명령어 입력
+colcon build
+```
+
+---
+
+### 06_모방 학습
+Hugging Face + OMX-AI 활용한 모방 학습 진행
+
+```bash
+# 워크스페이스로 이동
+cd ~/il_ws
+
+# lerobot 패키지 클론
+git clone https://github.com/huggingface/lerobot.git
+```
+
+---
+
 ### 빌드 및 실행 방법(공통)
 
 1. 의존성 설치 (필요시)
