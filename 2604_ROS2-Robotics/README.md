@@ -102,6 +102,16 @@ git clone https://github.com/huggingface/lerobot.git
 
 ---
 
+### 07_LLM
+Pinky_Pro에 AI 활용해서 표정 변환, Gazebo에서 LLM 기능으로 주행
+
+```bash
+# 워크스페이스로 이동
+cd ~/pinky_pro/src
+
+# gazebo harmonic 지원하는 패키지 클론
+git clone -b ros2-jazzy https://github.com/Juancams/aws-robomaker-small-house-world.git
+```
 
 ### 빌드 및 실행 방법(공통)
 
