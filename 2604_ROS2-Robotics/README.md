@@ -111,7 +111,17 @@ cd ~/pinky_pro/src
 
 # gazebo harmonic 지원하는 패키지 클론
 git clone -b ros2-jazzy https://github.com/Juancams/aws-robomaker-small-house-world.git
+git clone https://github.com/PinkWink/mobile_robot_llm.git
+
+# 변경되었으니 의존성 패키지 설치 후 새로 빌드하고 source 받아오기
+cd ../
+rosdep update
+rosdep install --from-paths . --ignore-src -r -y
+colcon build
+source ./install/setup.bash
 ```
+
+---
 
 ### 빌드 및 실행 방법(공통)
 
