@@ -1,0 +1,211 @@
+[
+  {
+    "input": "배터리 전압이랑 잔량 좀 확인해줘.",
+    "output": "from pinkylib import Battery\n\nbattery = Battery()\ntry:\n    voltage = battery.get_voltage()\n    percentage = battery.battery_percentage()\n    print(f\"현재 전압: {voltage:.2f}V\")\n    print(f\"배터리 잔량: {percentage}%\")\nfinally:\n    battery.close()"
+  },
+  {
+    "input": "로봇을 1초 동안 앞으로 이동시켰다가 멈추는 코드 알려줘. 속도는 50으로 해.",
+    "output": "from pinkylib import Motor\nimport time\n\npinky = Motor()\ntry:\n    pinky.enable_motor()\n    # 앞으로 이동 (좌우 모터 속도 50)\n    pinky.move(50, 50)\n    time.sleep(1)\n    pinky.stop()\n    pinky.disable_motor()\nfinally:\n    pinky.close()"
+  },
+  {
+    "input": "초음파 센서로 거리를 측정해서 10cm 이하면 멈추고, 아니면 계속 전진하는 코드를 짜줘.",
+    "output": "from pinkylib import Ultrasonic, Motor\nimport time\n\nsonar = Ultrasonic()\nmotor = Motor()\n\ntry:\n    motor.enable_motor()\n    while True:\n        dist = sonar.get_dist()\n        print(f\"거리: {dist}cm\")\n        \n        if dist <= 10:\n            print(\"장애물 감지! 정지합니다.\")\n            motor.stop()\n            break\n        else:\n            motor.move(40, 40)\n        \n        time.sleep(0.1)\n    motor.disable_motor()\nfinally:\n    sonar.close()\n    motor.close()"
+  },
+  {
+    "input": "부저로 '도레미' 소리를 1초씩 내고 싶어.",
+    "output": "from pinkylib import Buzzer\nimport time\n\nbuzzer = Buzzer()\ntry:\n    buzzer.buzzer_start()\n    buzzer.set_buzzer_duty(50)\n    \n    # 도 (261Hz)\n    buzzer.set_buzzer_freq(261)\n    time.sleep(1)\n    \n    # 레 (293Hz)\n    buzzer.set_buzzer_freq(293)\n    time.sleep(1)\n    \n    # 미 (329Hz)\n    buzzer.set_buzzer_freq(329)\n    time.sleep(1)\n    \n    buzzer.buzzer_stop()\nfinally:\n    buzzer.clean()"
+  },
+  {
+    "input": "LCD 화면을 녹색으로 3초간 채웠다가 꺼줘.",
+    "output": "from pinky_lcd import LCD\nfrom PIL import Image\nimport time\n\nlcd = LCD()\n\n# 녹색 이미지 생성 (320x240)\nimg = Image.new('RGB', (320, 240), color=(0, 255, 0))\nlcd.img_show(img)\n\ntime.sleep(3)\nlcd.clear()"
+  },
+  {
+    "input": "카메라를 켜서 화면을 주피터 노트북에 계속 보여주게 해줘. 10초 동안만.",
+    "output": "from pinkylib import Camera\n\ncam = Camera()\ncam.start()\n# 10초 동안 주피터 노트북에 프레임 출력\ncam.play_jupyter(10)\ncam.close()"
+  },
+  {
+    "input": "LED 전체를 파란색으로 켜줘.",
+    "output": "from pinkylib import LED\n\nled = LED()\nled.fill((0, 0, 255))  # Blue (R, G, B)\nled.show()"
+  },
+  {
+    "input": "LED가 빨간색으로 순차적으로 켜지는 효과(Color Wipe)를 보여줘.",
+    "output": "from pinkylib import LED\nimport time\n\nled = LED()\nRED = (255, 0, 0)\n\n# 0번부터 7번 LED까지 빨간색으로 순차 점등\nled.color_wipe(RED, wait_ms=100)"
+  },
+  {
+    "input": "IR 센서 값을 읽어서 라인을 감지하는 예제를 보여줘.",
+    "output": "from pinkylib import IR\nimport time\n\nsensor = IR()\ntry:\n    while True:\n        ir1, ir2, ir3 = sensor.read_ir()\n        print(f\"Left: {ir1}, Center: {ir2}, Right: {ir3}\")\n        time.sleep(0.1)\nfinally:\n    sensor.close()"
+  },
+  {
+    "input": "IMU 센서에서 가속도랑 자이로 값을 가져오는 방법 알려줘.",
+    "output": "from pinkylib import IMU\nimport time\n\nimu = IMU()\ntry:\n    data = imu.read_imu_data()\n    acc = data['acceleration']\n    gyro = data['gyro']\n    \n    print(f\"가속도(x,y,z): {acc}\")\n    print(f\"각속도(x,y,z): {gyro}\")\nfinally:\n    imu.close()"
+  },
+  {
+    "input": "카메라 캘리브레이션을 하고 싶어. 체커보드 이미지는 './chess' 폴더에 있어.",
+    "output": "from pinkylib import Camera\n\ncam = Camera()\n# 체커보드 크기 (8, 6), 한 칸 길이 25mm 가정\ncam.calibration_camera(\"./chess\", checkerboard_size=(8, 6), square_size=25)"
+  },
+  {
+    "input": "ArUco 마커 ID 1번을 찾아서 그 위치를 알려줘.",
+    "output": "from pinkylib import Camera\n\ncam = Camera()\n# 저장된 캘리브레이션 데이터 로드 (필수)\ncam.set_calibration(\"camera_calibration.npz\")\ncam.start()\n\nframe = cam.get_frame()\n# 마커 크기 0.036m (3.6cm) 가정\noutput_frame, pose = cam.detect_aruco_target(frame, target_id=1, marker_size=0.036)\n\nif pose:\n    print(f\"ID 1 마커 위치: {pose}\")\nelse:\n    print(\"마커를 찾을 수 없습니다.\")\n\ncam.display_jupyter(output_frame)\ncam.close()"
+  },
+  {
+    "input": "로봇을 제자리에서 오른쪽으로 회전시키고 싶어.",
+    "output": "from pinkylib import Motor\nimport time\n\npinky = Motor()\ntry:\n    pinky.enable_motor()\n    # 제자리 회전: 왼쪽은 전진(+), 오른쪽은 후진(-)\n    pinky.move(40, -40)\n    time.sleep(2)\n    pinky.stop()\n    pinky.disable_motor()\nfinally:\n    pinky.close()"
+  },
+  {
+    "input": "부저 소리를 3번 울려줘.",
+    "output": "from pinkylib import Buzzer\n\npinky = Buzzer()\ntry:\n    pinky.buzzer_start()\n    pinky.buzzer(3)\n    pinky.buzzer_stop()\nfinally:\n    pinky.clean()"
+  },
+  {
+    "input": "카메라로 사진 한 장 찍어서 보여줘.",
+    "output": "from pinkylib import Camera\n\ncam = Camera()\ncam.start()\n\nframe = cam.get_frame()\ncam.display_jupyter(frame)\n\ncam.close()"
+  },
+  {
+    "input": "LCD 밝기를 절반 정도로 줄여줘.",
+    "output": "from pinky_lcd import LCD\n\nlcd = LCD()\n# 밝기 범위: 0 ~ 255 (절반은 약 128)\nlcd.set_backlight(128)"
+  },
+  {
+    "input": "경찰차 사이렌처럼 빨강, 파랑 LED가 번갈아 켜지면서 소리가 나게 해봐.",
+    "output": "from pinkylib import LED, Buzzer\nimport time\n\nled = LED()\nbuzzer = Buzzer()\n\nRED = (255, 0, 0)\nBLUE = (0, 0, 255)\n\ntry:\n    buzzer.buzzer_start()\n    buzzer.set_buzzer_duty(50)\n    \n    for _ in range(5):\n        # 빨강 LED + 낮은 음\n        led.fill(RED)\n        led.show()\n        buzzer.set_buzzer_freq(500)\n        time.sleep(0.5)\n        \n        # 파랑 LED + 높은 음\n        led.fill(BLUE)\n        led.show()\n        buzzer.set_buzzer_freq(1000)\n        time.sleep(0.5)\n        \n    buzzer.buzzer_stop()\n    led.fill((0,0,0)) # LED 끄기\n    led.show()\nfinally:\n    buzzer.clean()"
+  },
+  {
+    "input": "후진할 때 비프음이 울리도록 해줘.",
+    "output": "from pinkylib import Motor, Buzzer\nimport time\n\nmotor = Motor()\nbuzzer = Buzzer()\n\ntry:\n    motor.enable_motor()\n    buzzer.buzzer_start()\n    buzzer.set_buzzer_duty(50)\n    buzzer.set_buzzer_freq(1000)\n    \n    # 후진\n    motor.move(-30, -30)\n    \n    # 0.5초 간격으로 소리 내기 (3회 반복)\n    for _ in range(3):\n        buzzer.set_buzzer_duty(50) # 소리 켬\n        time.sleep(0.3)\n        buzzer.set_buzzer_duty(0)  # 소리 끔\n        time.sleep(0.3)\n        \n    motor.stop()\n    buzzer.buzzer_stop()\n    motor.disable_motor()\nfinally:\n    motor.close()\n    buzzer.clean()"
+  },
+  {
+    "input": "전진하다가 검은 선(라인)을 만나면 멈추는 코드.",
+    "output": "from pinkylib import Motor, IR\nimport time\n\nmotor = Motor()\nsensor = IR()\n\ntry:\n    motor.enable_motor()\n    motor.move(30, 30)\n    \n    while True:\n        ir1, ir2, ir3 = sensor.read_ir()\n        # 검은색 감지 시 1 반환 (환경에 따라 다를 수 있음, 여기선 1을 감지로 가정)\n        if ir1 == 1 or ir2 == 1 or ir3 == 1:\n            print(\"라인 감지! 정지.\")\n            motor.stop()\n            break\n        time.sleep(0.05)\n        \n    motor.disable_motor()\nfinally:\n    motor.close()\n    sensor.close()"
+  },
+  {
+    "input": "현재 배터리 상태를 LCD에 띄워줘.",
+    "output": "from pinkylib import Battery\nfrom pinky_lcd import LCD\nfrom PIL import Image, ImageDraw, ImageFont\n\nbattery = Battery()\nlcd = LCD()\n\ntry:\n    vol = battery.get_voltage()\n    per = battery.battery_percentage()\n    \n    img = Image.new('RGB', (320, 240), color=(0, 0, 0))\n    draw = ImageDraw.Draw(img)\n    # 폰트 설정 (기본 폰트 사용)\n    # draw.text((x, y), text, fill=color)\n    draw.text((10, 10), f\"Voltage: {vol:.2f}V\", fill=(255, 255, 255))\n    draw.text((10, 30), f\"Battery: {per}%\", fill=(255, 255, 255))\n    \n    lcd.img_show(img)\nfinally:\n    battery.close()"
+  },
+  {
+    "input": "LED 3번이랑 4번만 노란색으로 켜줘.",
+    "output": "from pinkylib import LED\n\nled = LED()\nYELLOW = (255, 255, 0)\n\nled.set_pixel(3, YELLOW)\nled.set_pixel(4, YELLOW)\nled.show()"
+  },
+  {
+    "input": "IMU 센서의 쿼터니언 값을 10번 출력해줘.",
+    "output": "from pinkylib import IMU\nimport time\n\nimu = IMU()\ntry:\n    for i in range(10):\n        data = imu.read_imu_data()\n        print(f\"#{i+1} Quaternion: {data['quaternion']}\")\n        time.sleep(0.5)\nfinally:\n    imu.close()"
+  },
+  {
+    "input": "카메라 캘리브레이션 데이터를 저장하는 코드를 짜줘. 사진을 10장 찍어서 바로 계산하게.",
+    "output": "from pinkylib import Camera\n\ncam = Camera()\ncam.start()\n# 10장 촬영 후 바로 캘리브레이션 수행 및 저장\ncam.calibration(save_path=\"./calib_img\", num_images=10, checkerboard_size=(8, 6), square_size=25)\ncam.close()"
+  },
+  {
+    "input": "모터를 쓸 때 꼭 finally에서 close를 해야 해?",
+    "output": "네, 안전을 위해 권장됩니다. `pinkylib`의 `Motor` 클래스는 사용 후 `close()`를 호출하여 자원을 해제하는 것이 좋습니다. 보통 `try-finally` 구문을 사용하여 에러가 발생하더라도 모터가 멈추고 연결이 끊어지도록 작성합니다.\n\n"
+  },
+  {
+    "input": "모터 속도 범위는 어떻게 돼?",
+    "output": "`move(L, R)` 함수에서 모터 속도는 **-100 ~ 100** 사이의 정수로 설정합니다.\n* 양수 (1 ~ 100): 전진 방향 회전\n* 음수 (-1 ~ -100): 후진 방향 회전\n* 0: 정지"
+  },
+  {
+    "input": "ArUco 마커를 인식하려면 어떻게 해야 해?",
+    "output": "`Camera` 클래스의 `detect_aruco` 또는 `detect_aruco_target` 메서드를 사용합니다. 인식률을 높이려면 먼저 `set_calibration()`으로 카메라 보정 데이터를 불러와야 합니다.\n\n```python\nfrom pinkylib import Camera\n\ncam = Camera()\ncam.set_calibration(\"camera_calibration.npz\")\ncam.start()\n\nframe = cam.get_frame()\noutput, pose = cam.detect_aruco(frame)\n```"
+  },
+  {
+    "input": "LCD 화면을 지우려면?",
+    "output": "`LCD` 클래스의 `clear()` 메서드를 사용하면 화면이 검은색으로 초기화됩니다.\n\n```python\nfrom pinky_lcd import LCD\nlcd = LCD()\nlcd.clear()\n```"
+  },
+  {
+    "input": "초음파 센서 값이 이상하게 나와.",
+    "output": "초음파 센서는 표면이 매끄럽지 않거나 흡음 재질인 경우, 또는 센서 각도가 틀어지면 값이 부정확할 수 있습니다. `get_dist()` 함수는 cm 단위의 거리를 반환하며, 측정 루프 내에 `time.sleep()`을 주어 센서가 안정화될 시간을 주는 것이 좋습니다."
+  },
+  {
+    "input": "LED로 무지개색을 표현할 수 있어?",
+    "output": "네, 각 픽셀마다 RGB 값을 다르게 설정하여 무지개색을 만들 수 있습니다.\n\n"
+  },
+  {
+    "input": "왼쪽 바퀴만 50의 속도로 돌리고 오른쪽은 멈춰봐.",
+    "output": "from pinkylib import Motor\nimport time\n\npinky = Motor()\ntry:\n    pinky.enable_motor()\n    # 왼쪽 50, 오른쪽 0\n    pinky.move(50, 0)\n    time.sleep(1)\n    pinky.stop()\n    pinky.disable_motor()\nfinally:\n    pinky.close()"
+  },
+  {
+    "input": "카메라 해상도를 320x240으로 낮춰서 시작하고 싶어.",
+    "output": "from pinkylib import Camera\n\ncam = Camera()\n# start 함수에 width, height 파라미터 전달\ncam.start(width=320, height=240)\n\nframe = cam.get_frame()\nprint(frame.shape)\n\ncam.close()"
+  },
+  {
+    "input": "부저 소리가 너무 커. 좀 줄여줘.",
+    "output": "`set_buzzer_duty(duty)` 메서드로 소리 크기를 조절할 수 있습니다. `duty` 값이 작을수록 소리가 작아집니다.\n\n```python\nfrom pinkylib import Buzzer\n\npinky = Buzzer()\npinky.buzzer_start()\n# 소리 크기를 10으로 설정 (최대 100)\npinky.set_buzzer_duty(10)\n```"
+  },
+  {
+    "input": "전진하다가 장애물을 만나면 멈추고 뒤로 조금 물러났다가 다시 거리 확인하는 코드.",
+    "output": "from pinkylib import Motor, Ultrasonic\nimport time\n\nmotor = Motor()\nsonar = Ultrasonic()\n\ntry:\n    motor.enable_motor()\n    while True:\n        dist = sonar.get_dist()\n        if dist < 15:\n            print(\"장애물! 후퇴.\")\n            motor.stop()\n            time.sleep(0.5)\n            motor.move(-30, -30) # 후진\n            time.sleep(1)\n            motor.stop()\n        else:\n            motor.move(40, 40) # 전진\n        time.sleep(0.1)\nfinally:\n    motor.close()\n    sonar.close()"
+  },
+  {
+    "input": "IR 센서 3개 값을 리스트로 받아서 출력해줘.",
+    "output": "from pinkylib import IR\n\nsensor = IR()\ntry:\n    # read_ir()은 튜플(ir1, ir2, ir3)을 반환하므로 리스트로 변환\n    ir_values = list(sensor.read_ir())\n    print(f\"IR 센서 값 리스트: {ir_values}\")\nfinally:\n    sensor.close()"
+  },
+  {
+    "input": "LED Theater Chase 효과를 파란색으로 보여줘.",
+    "output": "from pinkylib import LED\n\nled = LED()\nBLUE = (0, 0, 255)\n\n# Theater Chase 효과 (색상, 대기시간 ms, 반복 횟수)\nled.theater_chase(BLUE, wait_ms=100, iterations=20)"
+  },
+  {
+    "input": "배터리가 20% 이하면 경고음을 울리는 감시 코드를 만들어줘.",
+    "output": "from pinkylib import Battery, Buzzer\nimport time\n\nbattery = Battery()\nbuzzer = Buzzer()\n\ntry:\n    while True:\n        level = battery.battery_percentage()\n        print(f\"배터리 잔량: {level}%\")\n        \n        if level <= 20:\n            print(\"배터리 부족 경고!\")\n            buzzer.buzzer_start()\n            buzzer.buzzer(3) # 3번 삑삑삑\n            buzzer.buzzer_stop()\n            break\n        \n        time.sleep(10) # 10초마다 확인\nfinally:\n    battery.close()\n    buzzer.clean()"
+  },
+  {
+    "input": "모터를 끄고 나서 다시 켤 때는 어떻게 해?",
+    "output": "`disable_motor()`를 호출하여 모터를 비활성화한 후, 다시 움직이려면 `enable_motor()`를 다시 호출해야 합니다. 단, `close()`를 호출했다면 객체를 다시 생성해야 할 수도 있습니다.\n\n```python\n# 단순히 비활성화 후 재활성화\npinky.disable_motor()\ntime.sleep(1)\npinky.enable_motor()\n```"
+  },
+  {
+    "input": "IMU 센서 데이터는 어떤 단위야?",
+    "output": "`read_imu_data()`가 반환하는 딕셔너리의 단위는 다음과 같습니다:\n* `'acceleration'`: **m/s²** (가속도)\n* `'gyro'`: **deg/s** (각속도)\n* `'quaternion'`: 단위 없는 자세 쿼터니언 (w, x, y, z)"
+  },
+  {
+    "input": "카메라 프레임을 받아서 가로세로 크기를 출력해봐.",
+    "output": "from pinkylib import Camera\n\ncam = Camera()\ncam.start()\n\nframe = cam.get_frame()\nheight, width, channels = frame.shape\nprint(f\"가로: {width}, 세로: {height}\")\n\ncam.close()"
+  },
+  {
+    "input": "Pinky 로봇의 모든 라이브러리를 import하는 코드를 짜줘.",
+    "output": "from pinkylib import Ultrasonic, Buzzer, IR, IMU, Battery, Motor, Camera, LED\nfrom pinky_lcd import LCD\nimport time\nimport cv2\nfrom PIL import Image"
+  },
+  {
+    "input": "Pinky 로봇이 뭐야?",
+    "output": "Pinky는 Python 라이브러리(`pinkylib`, `pinky_lcd`)를 통해 제어 가능한 교육용 로봇 플랫폼입니다. 자율 주행, 센서 데이터 수집, 영상 처리, 디스플레이 출력 등의 기능을 수행할 수 있습니다."
+  },
+  {
+    "input": "Pinky 로봇에는 어떤 센서들이 있어?",
+    "output": "Pinky는 다음과 같은 다양한 센서를 탑재하고 있습니다:\n1. **Ultrasonic (초음파)**: 전방 장애물 거리 측정\n2. **IR (적외선)**: 바닥 라인 감지 (3채널)\n3. **IMU (관성 측정 장치)**: 가속도, 각속도(자이로), 자세(쿼터니언) 측정\n4. **Camera (카메라)**: 영상 수집 및 ArUco 마커 인식\n5. **Battery (배터리)**: 전압 및 잔량 모니터링"
+  },
+  {
+    "input": "Pinky 로봇의 카메라로 할 수 있는 기능들을 알려줘.",
+    "output": "`Camera` 모듈을 사용하면 다음과 같은 작업이 가능합니다:\n* **영상 스트리밍**: `get_frame()`으로 실시간 이미지 캡처\n* **주피터 연동**: `display_jupyter()`로 노트북 화면에 이미지 출력\n* **캘리브레이션**: `calibration_camera()`로 왜곡 보정\n* **마커 인식**: `detect_aruco()`로 ArUco 마커의 ID와 위치(Pose) 추적"
+  },
+  {
+    "input": "Pinky 라이브러리에서 LED는 어떻게 제어해?",
+    "output": "`LED` 클래스는 8개의 RGB LED를 제어합니다.\n* `set_pixel(index, color)`: 특정 번호의 LED 색상 설정\n* `fill(color)`: 모든 LED를 같은 색으로 설정\n* `show()`: 설정한 색상을 실제로 적용 (필수 호출)\n* `color_wipe()`, `theater_chase()`: 내장된 조명 효과 사용"
+  },
+  {
+    "input": "Pinky의 부저(Buzzer) 기능을 설명해줘.",
+    "output": "`Buzzer` 클래스는 PWM을 이용해 소리를 제어합니다. `buzzer_start()`로 시작하여 `set_buzzer_freq()`로 음정(주파수)을, `set_buzzer_duty()`로 음량(Duty Cycle)을 조절합니다. 간단히 `buzzer(횟수)`를 호출해 비프음을 낼 수도 있습니다."
+  },
+  {
+    "input": "Pinky 로봇의 LCD 화면에는 무엇을 띄울 수 있어?",
+    "output": "`pinky_lcd` 패키지의 `LCD` 클래스를 사용하여 320x240 해상도의 이미지를 출력할 수 있습니다. Python의 `PIL(Pillow)` 라이브러리로 텍스트나 도형을 그린 이미지를 `img_show()` 메서드에 전달하면 화면에 표시됩니다."
+  },
+  {
+    "input": "Pinky 로봇을 안전하게 종료하려면 어떻게 해야 해?",
+    "output": "로봇 사용을 마칠 때는 각 모듈의 `close()` 또는 `clean()` 메서드를 호출하여 자원을 해제해야 합니다. 특히 `Motor` 클래스는 `stop()` 후 `close()`를 호출하여 모터가 계속 돌지 않도록 해야 하며, `Camera` 클래스도 `close()`를 통해 카메라 리소스를 반환해야 합니다."
+  },
+  {
+    "input": "Pinky 모터 속도 설정 범위는 어떻게 돼?",
+    "output": "`Motor` 클래스의 `move(L, R)` 메서드에서 속도는 **-100 ~ 100** 사이의 정수로 설정합니다. 양수는 전진, 음수는 후진, 0은 정지를 의미합니다."
+  },
+  {
+    "input": "IMU 센서 데이터의 단위가 궁금해.",
+    "output": "`read_imu_data()` 메서드가 반환하는 데이터의 단위는 다음과 같습니다:\n* **acceleration (가속도)**: m/s²\n* **gyro (각속도)**: deg/s\n* **quaternion (자세)**: 단위 없음 (w, x, y, z)"
+  },
+  {
+    "input": "초음파 센서 사용 시 주의할 점은?",
+    "output": "초음파 센서는 매끄러운 표면이나 흡음 재질에서는 반사가 잘 안 되어 값이 부정확할 수 있습니다. 또한 연속 측정 시 센서가 안정화될 수 있도록 루프 내에 `time.sleep()`을 넣어주는 것이 좋습니다."
+  },
+  {
+    "input": "배터리 잔량은 어떻게 확인해?",
+    "output": "`Battery` 클래스의 `battery_percentage()` 메서드를 사용하면 현재 배터리 잔량을 퍼센트(%) 단위의 정수로 반환받을 수 있습니다."
+  },
+  {
+    "input": "ArUco 마커 인식이 잘 안 돼.",
+    "output": "마커 인식이 잘 안 될 경우 다음을 확인해보세요:\n1. `set_calibration()`으로 카메라 보정 데이터를 로드했는지 확인하세요.\n2. 마커가 너무 멀거나 각도가 너무 비스듬하지 않은지 확인하세요.\n3. `marker_size` 파라미터가 실제 마커 크기(미터 단위)와 일치하는지 확인하세요."
+  }
+
+]
